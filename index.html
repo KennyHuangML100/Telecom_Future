@@ -1082,7 +1082,7 @@
           caption: "網路維運中心，適合呈現 10 年 Roadmap 的營運治理、KPI 與策略監控。",
           alt: "Network operations center with monitoring displays"
         },
-        sourceKeys: [1, 2, 3],
+        sourceBlock: "roadmap",
         terms: ["Telco Edge AI", "IDC", "Open Gateway", "企業專網", "AI-RAN", "IOWN", "6G", "SLA"],
         principles: [
           ["2026-2028：打底", "5G SA、切片、MEC、Open Gateway API、RAN 自動化與企業專網先商品化。"],
@@ -1139,6 +1139,7 @@
     };
 
     let sourceBlocks = {};
+    let roadmapSource = "";
 
     function normalizeSource(text) {
       return text
@@ -1156,6 +1157,13 @@
         if (match) blocks[Number(match[1])] = part.trim();
       });
       return blocks;
+    }
+
+    function extractRoadmapBlock(text) {
+      const normalized = normalizeSource(text);
+      const marker = "未來10年可執行的電信發展策略藍圖Roadmap 與具體執行方針要點:";
+      const index = normalized.indexOf(marker);
+      return index >= 0 ? normalized.slice(index).trim() : "";
     }
 
     function escapeHtml(value) {
@@ -1235,9 +1243,12 @@
       try {
         const response = await fetch("context.txt", { cache: "no-store" });
         if (!response.ok) throw new Error("context.txt HTTP " + response.status);
-        sourceBlocks = extractSourceBlocks(await response.text());
+        const sourceText = await response.text();
+        sourceBlocks = extractSourceBlocks(sourceText);
+        roadmapSource = extractRoadmapBlock(sourceText);
       } catch (error) {
         sourceBlocks = {};
+        roadmapSource = "";
         nodes.sourceContent.textContent = "無法自動載入 context.txt。若直接以 file:// 開啟網頁，瀏覽器可能會阻擋本機文字檔讀取；請改用本機伺服器預覽。";
       }
       const active = Number(document.querySelector(".tab-button.active").dataset.tab);
@@ -1245,6 +1256,12 @@
     }
 
     function renderSource(tab) {
+      if (tab.sourceBlock === "roadmap") {
+        nodes.sourceSummary.textContent = "展開未來 10 年 Roadmap 與具體執行方針";
+        nodes.sourceContent.innerHTML = formatSourceHtml(roadmapSource);
+        return;
+      }
+
       const keys = tab.sourceKeys || [];
       const content = keys.map(key => sourceBlocks[key]).filter(Boolean).join("\n\n");
       nodes.sourceSummary.textContent = keys.length > 1
