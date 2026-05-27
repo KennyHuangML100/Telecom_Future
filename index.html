@@ -161,6 +161,39 @@
       font-weight: 750;
     }
 
+    .qr-access {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .qr-access img {
+      width: 92px;
+      height: 92px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 6px;
+    }
+
+    .qr-title {
+      margin: 0 0 4px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .qr-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
     .panel {
       position: relative;
       z-index: 1;
@@ -721,6 +754,15 @@
         border-right: 0;
       }
 
+      .qr-access {
+        grid-template-columns: 80px 1fr;
+      }
+
+      .qr-access img {
+        width: 80px;
+        height: 80px;
+      }
+
       .page-no {
         right: 20px;
       }
@@ -743,6 +785,14 @@
         <div class="verdict">
           <p class="verdict-label">董事會版本一句話</p>
           <p class="verdict-text" id="heroVerdict">AI-RAN 應做有限分區試點，不批准全網汰換。</p>
+        </div>
+
+        <div class="qr-access" aria-label="手機掃描進入網頁">
+          <img src="QR.JPG" alt="進入本網頁的 QR Code">
+          <div>
+            <p class="qr-title">手機掃描進入本網頁</p>
+            <p class="qr-note">會議現場可直接拍攝 QR Code，快速開啟互動版策略說明。</p>
+          </div>
         </div>
       </aside>
 
