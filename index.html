@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台灣大未來網路投資決策簡報</title>
+  <style>
+    :root {
+      --bg: #F7F5F2;
+      --paper: #FFFDF9;
+      --ink: #2E2E2E;
+      --muted: #6F6B66;
+      --secondary: #9E9E9E;
+      --accent: #C58940;
+      --accent-soft: #F0DEC6;
+      --line: rgba(46, 46, 46, .14);
+      --line-strong: rgba(46, 46, 46, .24);
+      --teal: #2F6F6B;
+      --blue: #355C7D;
+      --red: #9A4A3F;
+      --shadow: 0 22px 60px rgba(65, 50, 32, .13);
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(197, 137, 64, .045) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(197, 137, 64, .035) 1px, transparent 1px),
+        var(--bg);
+      background-size: 72px 72px;
+      font-family: var(--sans);
+      line-height: 1.5;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    .deck {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+
+    .stage {
+      position: relative;
+      width: min(100%, 1440px);
+      min-height: min(810px, calc(100vh - 56px));
+      overflow: visible;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: 22px;
+      row-gap: 24px;
+      padding: 52px 64px 48px;
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 88% 10%, rgba(47, 111, 107, .08), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, .4), rgba(255, 255, 255, 0));
+    }
+
+    .kicker {
+      position: absolute;
+      top: 24px;
+      left: 64px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .page-no {
+      position: absolute;
+      right: 38px;
+      bottom: 26px;
+      font-family: var(--mono);
+      color: var(--secondary);
+      font-size: 13px;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      grid-column: 1 / 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 34px;
+      min-width: 0;
+      padding-top: 16px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 560px;
+      font-size: clamp(38px, 4.2vw, 64px);
+      line-height: 1.05;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 24px 0 0;
+      max-width: 430px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .verdict {
+      margin-top: 34px;
+      padding: 22px 0 0;
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .verdict-label {
+      margin: 0 0 8px;
+      color: var(--secondary);
+      font-size: 13px;
+    }
+
+    .verdict-text {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.35;
+      font-weight: 750;
+    }
+
+    .panel {
+      position: relative;
+      z-index: 1;
+      grid-column: 5 / 13;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .54);
+    }
+
+    .tab-button {
+      min-height: 66px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: transparent;
+      text-align: left;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .tab-button:last-child {
+      border-right: 0;
+    }
+
+    .tab-button:hover {
+      background: rgba(197, 137, 64, .08);
+    }
+
+    .tab-button.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .tab-index {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      opacity: .72;
+      margin-bottom: 4px;
+    }
+
+    .tab-title {
+      display: block;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 22px;
+      min-height: 0;
+    }
+
+    .content-main,
+    .content-side {
+      border-top: 1px solid var(--line-strong);
+      padding-top: 18px;
+      min-width: 0;
+    }
+
+    .question-label,
+    .section-label {
+      margin: 0 0 9px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(26px, 2.35vw, 38px);
+      line-height: 1.15;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    .question {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .answer-box {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .answer-tag {
+      color: var(--paper);
+      background: var(--accent);
+      padding: 8px 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .answer {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.42;
+      font-weight: 760;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .principle {
+      min-height: 104px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(247, 245, 242, .62);
+    }
+
+    .principle strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .principle span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .decision-strip {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .source-accordion {
+      position: relative;
+      z-index: 1;
+      grid-column: 1 / -1;
+      margin-top: 0;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+      background: rgba(247, 245, 242, .45);
+    }
+
+    .source-accordion summary {
+      cursor: pointer;
+      padding: 14px 0;
+      color: var(--ink);
+      font-weight: 800;
+      list-style-position: outside;
+    }
+
+    .source-accordion summary::marker {
+      color: var(--accent);
+    }
+
+    .source-content {
+      max-height: 620px;
+      overflow: auto;
+      padding: 0 18px 22px 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.72;
+    }
+
+    .source-part {
+      margin: 18px 0 10px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .source-title {
+      margin: 8px 0 14px;
+      color: var(--ink);
+      font-size: 24px;
+      line-height: 1.28;
+      font-weight: 850;
+    }
+
+    .source-heading {
+      margin: 22px 0 8px;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.4;
+      font-weight: 800;
+    }
+
+    .source-subheading {
+      margin: 18px 0 6px;
+      color: var(--teal);
+      font-size: 16px;
+      line-height: 1.4;
+      font-weight: 800;
+    }
+
+    .source-paragraph {
+      max-width: 1080px;
+      margin: 0 0 12px;
+    }
+
+    .source-highlight {
+      max-width: 1080px;
+      margin: 14px 0;
+      padding: 14px 16px;
+      color: var(--ink);
+      border-left: 3px solid var(--accent);
+      background: rgba(240, 222, 198, .42);
+      font-weight: 700;
+    }
+
+    .decision {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .decision b {
+      width: 24px;
+      height: 24px;
+      display: inline-grid;
+      place-items: center;
+      color: var(--paper);
+      background: var(--teal);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .decision span {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .metric {
+      padding: 12px;
+      background: #F4EFE8;
+      border: 1px solid var(--line);
+    }
+
+    .metric-value {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--blue);
+      font-family: var(--mono);
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .metric-caption {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .visual {
+      min-height: 188px;
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      background: #D7D0C6;
+    }
+
+    .visual::after {
+      content: attr(data-caption);
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 34px 12px 10px;
+      color: rgba(255, 253, 249, .9);
+      font-size: 11px;
+      line-height: 1.35;
+      background: linear-gradient(180deg, transparent, rgba(46, 46, 46, .72));
+    }
+
+    .visual img {
+      display: block;
+      width: 100%;
+      height: 188px;
+      object-fit: cover;
+      filter: saturate(.86) contrast(.95) sepia(.08);
+    }
+
+    .visual-source {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 1;
+      max-width: calc(100% - 20px);
+      padding: 5px 7px;
+      color: var(--paper);
+      background: rgba(46, 46, 46, .58);
+      font-size: 11px;
+      text-decoration: none;
+    }
+
+    .visual-source:hover {
+      background: rgba(46, 46, 46, .78);
+    }
+
+    .side-title {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .term-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 18px;
+    }
+
+    .term {
+      border: 1px solid rgba(197, 137, 64, .36);
+      background: rgba(240, 222, 198, .44);
+      color: var(--ink);
+      padding: 7px 9px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .term:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .brief {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .timeline {
+      margin-top: 18px;
+      border-left: 1px solid var(--line-strong);
+      padding-left: 16px;
+    }
+
+    .step {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      left: -21px;
+      top: 6px;
+      width: 9px;
+      height: 9px;
+      background: var(--accent);
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .bottom-line {
+      position: relative;
+      z-index: 1;
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .bottom-line strong {
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .credit-line {
+      position: relative;
+      z-index: 1;
+      grid-column: 1 / -1;
+      margin-top: -12px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background: rgba(46, 46, 46, .34);
+    }
+
+    .modal-backdrop.open {
+      display: grid;
+    }
+
+    .modal {
+      width: min(560px, 100%);
+      background: var(--paper);
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 30px 80px rgba(46, 46, 46, .22);
+      padding: 28px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .modal h3 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .modal-close {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      background: transparent;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .modal p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .modal .why {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    @media (max-width: 1080px) {
+      .deck {
+        padding: 0;
+      }
+
+      .stage {
+        width: 100%;
+        min-height: 100vh;
+        aspect-ratio: auto;
+        grid-template-columns: 1fr;
+        padding: 74px 24px 48px;
+      }
+
+      .kicker {
+        left: 24px;
+      }
+
+      .hero,
+      .panel {
+        grid-column: 1;
+      }
+
+      .hero {
+        gap: 22px;
+        padding-top: 0;
+      }
+
+      .lead {
+        max-width: none;
+      }
+
+      .tabs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tab-button {
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .content-grid,
+      .principles,
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+
+      .bottom-line {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .stage {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .answer-box {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        grid-template-columns: 1fr;
+      }
+
+      .tab-button {
+        border-right: 0;
+      }
+
+      .page-no {
+        right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="stage" aria-label="台灣大未來網路投資決策簡報">
+      <div class="kicker" id="sectionName">問題一：AI-RAN</div>
+      <div class="page-no" id="pageNo">01 / 04</div>
+
+      <aside class="hero">
+        <div>
+          <div class="eyebrow">Executive elevator brief</div>
+          <h1>不再賣速度，改賣可被保證的網路能力。</h1>
+          <p class="lead">給總經理的 90 秒結論：AI-RAN、IOWN、6G 都不是炫技採購題，而是資本紀律、企業收入與未來定價權的取捨。</p>
+        </div>
+
+        <div class="verdict">
+          <p class="verdict-label">董事會版本一句話</p>
+          <p class="verdict-text" id="heroVerdict">AI-RAN 應做有限分區試點，不批准全網汰換。</p>
+        </div>
+      </aside>
+
+      <section class="panel">
+        <nav class="tabs" aria-label="四項議題切換">
+          <button class="tab-button active" type="button" data-tab="0">
+            <span class="tab-index">01</span>
+            <span class="tab-title">AI-RAN：算力期權</span>
+          </button>
+          <button class="tab-button" type="button" data-tab="1">
+            <span class="tab-index">02</span>
+            <span class="tab-title">IOWN：能源期權</span>
+          </button>
+          <button class="tab-button" type="button" data-tab="2">
+            <span class="tab-index">03</span>
+            <span class="tab-title">6G：定價權重建</span>
+          </button>
+          <button class="tab-button" type="button" data-tab="3">
+            <span class="tab-index">04</span>
+            <span class="tab-title">10 年 Roadmap</span>
+          </button>
+        </nav>
+
+        <div class="content-grid">
+          <article class="content-main">
+            <p class="question-label" id="questionLabel">Question 1</p>
+            <h2 id="title">AI-RAN 的豪賭：智慧大腦，還是純搬運工？</h2>
+            <p class="question" id="question">若基站要變成分散式 AI 中心，台灣大該投入巨額 CAPEX，還是守住低成本穩定傳輸？</p>
+
+            <div class="answer-box">
+              <div class="answer-tag" id="answerTag">建議</div>
+              <p class="answer" id="answer">把 AI-RAN 當作有選擇權價值的邊緣算力實驗；核心網路繼續守低成本、高穩定、高覆蓋。</p>
+            </div>
+
+            <div class="principles" id="principles"></div>
+            <div class="decision-strip" id="decisions"></div>
+          </article>
+
+          <aside class="content-side">
+            <div class="visual" id="visual" data-caption="">
+              <a class="visual-source" id="visualSource" href="#" target="_blank" rel="noopener">圖片來源</a>
+              <img id="visualImage" src="" alt="">
+            </div>
+            <p class="section-label">Talk track</p>
+            <h3 class="side-title" id="sideTitle">總經理應聽到的不是技術名詞，而是投資紀律。</h3>
+            <p class="brief" id="brief">問題不是「要不要擁抱 AI-RAN」，而是把 AI 算力放進 RAN 後，是否比資料中心、公有雲或企業邊緣機房更便宜、更穩、更可收費。</p>
+
+            <div class="term-row" id="terms" aria-label="可點擊術語"></div>
+
+            <div class="metric-row" id="metrics"></div>
+            <div class="timeline" id="timeline"></div>
+          </aside>
+        </div>
+      </section>
+
+      <details class="source-accordion">
+        <summary id="sourceSummary">展開完整 Question / Suggestion 原文</summary>
+        <div class="source-content" id="sourceContent">正在載入 context.txt...</div>
+      </details>
+
+      <div class="bottom-line">
+        <span><strong>使用方式：</strong>點擊上方議題 tabs；點擊術語標籤可開啟科普視窗。</span>
+        <span>16:9 HD | RWD</span>
+      </div>
+      <div class="credit-line">製作人: 黃振益，umltcc@gmail.com / 0935-449089</div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="modalTitle"></h3>
+        <button class="modal-close" type="button" id="modalClose" aria-label="關閉">×</button>
+      </div>
+      <p id="modalBody"></p>
+      <p class="why" id="modalWhy"></p>
+    </div>
+  </div>
+
+  <script>
+    const glossary = {
+      "AI-RAN": {
+        body: "AI Radio Access Network，指把 AI 運算能力與無線接取網路更深度整合，讓基地台或邊緣節點不只傳輸，也能做推論與網路自動化。",
+        why: "決策重點：它可能創造邊緣 AI 收入，但也會提高設備、功耗、維運與供應商鎖定風險。"
+      },
+      "CAPEX": {
+        body: "Capital Expenditure，資本支出。對電信商來說，通常包含頻譜、基地台、核心網、光纖、資料中心與大型設備投資。",
+        why: "決策重點：5G 投資高峰後，任何新技術都必須說清楚回收期與現金流影響。"
+      },
+      "RAN": {
+        body: "Radio Access Network，無線接取網路，包含基地台與連接終端用戶到核心網路的無線基礎設施。",
+        why: "決策重點：RAN 是電信服務穩定性的底座，不適合被高波動 AI 工作負載拖累。"
+      },
+      "MEC": {
+        body: "Multi-access Edge Computing，多接取邊緣運算。把運算資源放在靠近用戶或企業場域的位置，降低延遲與資料搬移成本。",
+        why: "決策重點：MEC 往往比每座基地台都 AI 化更務實，適合作為企業 AI 與 5G 專網的中間平台。"
+      },
+      "5G SA": {
+        body: "5G Standalone，獨立組網 5G。核心網也採用 5G 架構，較能支援切片、低延遲與企業專網能力。",
+        why: "決策重點：若 5G SA 與切片還沒商品化成功，直接押 6G 或 AI-RAN 會更難回收。"
+      },
+      "Network Slicing": {
+        body: "網路切片。把同一張實體網路切成多個邏輯網路，分別提供不同延遲、頻寬、可靠性與安全等級。",
+        why: "決策重點：切片是從賣流量轉向賣 SLA 的重要基礎。"
+      },
+      "IOWN": {
+        body: "Innovative Optical and Wireless Network，由 NTT 推動的新一代全光與無線網路願景，核心是用光子技術降低延遲、提升頻寬並降低能耗。",
+        why: "決策重點：方向正確，但若標準、生態與客戶需求未成熟，全面汰換會承擔早期折舊風險。"
+      },
+      "APN": {
+        body: "All-Photonics Network，全光子網路。盡量讓資料在端到端路徑中以光訊號形式傳輸，減少光電轉換。",
+        why: "決策重點：APN 對資料中心互連、遠端 GPU 與跨區低延遲場景有價值，但必須有明確付費客戶。"
+      },
+      "O/E/O": {
+        body: "Optical / Electrical / Optical，光訊號轉電訊號再轉回光訊號。每次轉換都可能增加能耗、延遲、成本與故障點。",
+        why: "決策重點：IOWN 想解的不是單純頻寬，而是資料搬移與轉換造成的系統成本。"
+      },
+      "6G": {
+        body: "第六代行動通訊。預期將結合更高頻譜、AI、感測、定位、低延遲、邊緣運算與可編程網路能力。",
+        why: "決策重點：若仍以吃到飽月租回收，6G 會重演 5G 的投資壓力與毛利下滑。"
+      },
+      "SLA": {
+        body: "Service Level Agreement，服務水準協議。明確約定延遲、可用性、修復時間、安全等級等服務承諾。",
+        why: "決策重點：企業願意為確定性付費，SLA 是 6G 定價權的核心。"
+      },
+      "Network API": {
+        body: "把電信網路能力包裝成開發者可調用的 API，例如身分驗證、SIM swap、位置驗證、臨時品質保證等。",
+        why: "決策重點：API 讓電信商從賣月租轉向按能力調用收費，重新取得平台收入。"
+      },
+      "QoD": {
+        body: "Quality on Demand，按需品質。應用服務可在需要時臨時要求更高網路品質，例如低延遲或穩定上傳。",
+        why: "決策重點：它讓網路品質變成可交易、可計價、可被應用觸發的產品。"
+      },
+      "Telco Edge AI": {
+        body: "電信邊緣 AI 平台。把邊緣算力、低延遲連線、資料治理、資安與企業 SLA 包成可銷售服務。",
+        why: "決策重點：它避免電信商只幫雲商接最後一哩，保留客戶介面與定價權。"
+      },
+      "IDC": {
+        body: "Internet Data Center，網際網路資料中心。承載雲端、企業系統、AI workload 與資料交換，是未來電信企業服務的重要資產。",
+        why: "決策重點：IOWN、MEC 與 6G 的價值，必須和 IDC 流量、企業專網與 AI 業務規模一起看。"
+      },
+      "Open Gateway": {
+        body: "由電信產業推動的標準化 Network API 架構，讓開發者用一致方式調用電信網路能力。",
+        why: "決策重點：它是把身分驗證、SIM swap、位置驗證與 QoD 變成平台收入的切入點。"
+      },
+      "企業專網": {
+        body: "為特定企業、園區、工廠、港口、醫療院區等場域建置的專屬行動網路，通常強調可控、資安、低延遲與 SLA。",
+        why: "決策重點：企業專網是 AI-RAN、MEC、6G SLA 最容易先商品化的高價值場域。"
+      }
+    };
+
+    const tabs = [
+      {
+        section: "問題一：AI-RAN",
+        page: "01 / 04",
+        label: "Question 1",
+        title: "AI-RAN 的豪賭：智慧大腦，還是純搬運工？",
+        question: "若基站要變成分散式 AI 中心，台灣大該投入巨額 CAPEX，還是守住低成本穩定傳輸？",
+        tag: "建議",
+        answer: "把 AI-RAN 當作有選擇權價值的邊緣算力實驗；核心網路繼續守低成本、高穩定、高覆蓋。",
+        verdict: "AI-RAN 應做有限分區試點，不批准全網汰換。",
+        sideTitle: "總經理應聽到的不是技術名詞，而是投資紀律。",
+        brief: "問題不是「要不要擁抱 AI-RAN」，而是把 AI 算力放進 RAN 後，是否比資料中心、公有雲或企業邊緣機房更便宜、更穩、更可收費。",
+        image: {
+          src: "https://commons.wikimedia.org/wiki/Special:FilePath/Cellular%205G%20Equipment%20-%20Cell%20Tower%20Antennas.jpg?width=900",
+          source: "https://commons.wikimedia.org/wiki/File:Cellular_5G_Equipment_-_Cell_Tower_Antennas.jpg",
+          caption: "5G 基站設備，適合說明 AI-RAN 與無線接取網路升級議題。",
+          alt: "5G cellular antenna equipment on a tower"
+        },
+        sourceKeys: [1],
+        terms: ["AI-RAN", "RAN", "CAPEX", "MEC", "5G SA", "Network Slicing"],
+        principles: [
+          ["守現金流", "不把 5G 後的 capex 緩和期，變成下一輪全網汰換。"],
+          ["買選擇權", "只在企業場域與高價值熱點取得學習曲線。"],
+          ["看三個數字", "每瓦推論成本、每站新增收入、RAN KPI 改善。"]
+        ],
+        decisions: [
+          "不批准全網 AI-RAN 汰換；批准有限、分區、企業收入導向的投資組合。",
+          "優先投入 RAN 自動化、MEC、5G SA、切片、企業 AI 與資安服務。",
+          "與 Nokia / Nvidia 可合作，但合約必須可退出、可比較、可多供應商替代。"
+        ],
+        metrics: [
+          ["18-24M", "必須證明可量化收益"],
+          ["3-5", "高價值場域商用 PoC"],
+          ["20", "不是全網，而是關鍵熱點"]
+        ],
+        timeline: [
+          ["12 個月", "做架構準備與多供應商測試。"],
+          ["PoC", "新竹、製造聚落、港口、醫療或交通場域。"],
+          ["擴張", "只有企業長約與毛利成立後才擴大。"]
+        ]
+      },
+      {
+        section: "問題二：IOWN",
+        page: "02 / 04",
+        label: "Question 2",
+        title: "IOWN 全光網路：能耗黑洞的終極救贖？",
+        question: "AI 運算讓資料中心能耗升高，IOWN 號稱低能耗、高頻寬、低延遲；台灣大該當引領者嗎？",
+        tag: "建議",
+        answer: "採取策略性追隨者：加入論壇或工作組、做小型 PoC、保留互通能力，但不大規模汰換。",
+        verdict: "IOWN 是能源效率期權，不是今天全面改造的理由。",
+        sideTitle: "IOWN 解的是資料搬移成本，不是單純頻寬問題。",
+        brief: "全光架構的價值在於減少資料搬移與 O/E/O 轉換造成的能耗、延遲與故障點；但要等標準、生態、節能與付費客戶成熟。",
+        image: {
+          src: "https://commons.wikimedia.org/wiki/Special:FilePath/Optical%20fiber%20fusion%20splicing%20-%20USDA.jpg?width=900",
+          source: "https://commons.wikimedia.org/wiki/File:Optical_fiber_fusion_splicing_-_USDA.jpg",
+          caption: "光纖熔接現場，對應 IOWN / APN 的全光網路與低能耗傳輸主題。",
+          alt: "Technician working on optical fiber fusion splicing"
+        },
+        sourceKeys: [2],
+        terms: ["IOWN", "APN", "O/E/O", "MEC", "CAPEX", "SLA"],
+        principles: [
+          ["不當白老鼠", "避免替供應商支付早期學習成本，卻拿不到全球定價權。"],
+          ["預留接口", "新建 IDC、MEC、海纜與企業專案要求 APN-ready。"],
+          ["等待門檻", "標準成熟、節能可審計、企業客戶願意簽約。"]
+        ],
+        decisions: [
+          "加入 IOWN Global Forum 或技術工作組，掌握 roadmap 與互通標準。",
+          "不汰換現網，只在新建資料中心互連或企業專案中預留 APN-ready 架構。",
+          "選台日跨境、AI data center 或遠端 GPU 場景做 PoC，避免在企業市場缺席。"
+        ],
+        metrics: [
+          ["30-50%", "端到端每 bit 能耗節省門檻"],
+          ["2-3", "多年合約企業客戶"],
+          ["5", "正式加入前客觀條件"]
+        ],
+        timeline: [
+          ["觀察", "參與論壇、工作組與早期 PoC。"],
+          ["預留", "新建節點採取 APN-ready，不拆可用設備。"],
+          ["導入", "需求逼近現網天花板且商業合約成立後分階段投資。"]
+        ]
+      },
+      {
+        section: "問題三：6G",
+        page: "03 / 04",
+        label: "Question 3",
+        title: "6G 生存遊戲：終結技術升級、毛利下降。",
+        question: "如果 6G 仍用平價吃到飽回收，更多基站與更高投資將壓低電信業獲利；台灣大如何突破？",
+        tag: "建議",
+        answer: "不要把 6G 當成更快的 5G；把它定義成可編程企業基礎設施，賣 SLA、API、邊緣 AI 與資安信任。",
+        verdict: "6G 不賣速度，賣企業願意持續付費的確定性。",
+        sideTitle: "6G 的勝負不在網速，而在定價權。",
+        brief: "消費者買便宜穩定，企業買不能出錯、可保證、可整合、可稽核。6G 必須把網路能力產品化，才不會重演 5G。",
+        image: {
+          src: "https://commons.wikimedia.org/wiki/Special:FilePath/Datacenter-telecom.jpg?width=900",
+          source: "https://commons.wikimedia.org/wiki/File:Datacenter-telecom.jpg",
+          caption: "電信資料中心場景，對應 6G、邊緣 AI、IDC 與企業平台化收入。",
+          alt: "Rows of equipment racks in a telecom data center"
+        },
+        sourceKeys: [3],
+        terms: ["6G", "SLA", "Network API", "QoD", "Network Slicing", "MEC"],
+        principles: [
+          ["賣確定性", "延遲、頻寬、定位、資安與可用性都要可保證。"],
+          ["賣能力調用", "Network API 讓每次驗證、定位、品質保證都能計價。"],
+          ["需求牽引", "先鋪高收入密度場域，不以全台平均覆蓋為唯一 KPI。"]
+        ],
+        decisions: [
+          "2026-2028 先把 5G Advanced、SA、切片、MEC、API 與企業專網榨乾。",
+          "2028-2030 只在科學園區、金融核心、港口、機場、醫療與 AI data center 周邊做 pre-commercial。",
+          "2030 後用每 MHz 企業收入、每基站 API 調用收入、每平方公里 SLA 合約收入決定擴張。"
+        ],
+        metrics: [
+          ["4", "收入引擎：API、SLA、邊緣 AI、資安"],
+          ["3", "新 KPI：MHz、API、平方公里收入"],
+          ["0", "沒有新模式，不做激進全網升級"]
+        ],
+        timeline: [
+          ["2026-2028", "先證明企業願為確定性付費。"],
+          ["2028-2030", "高價值區域做 6G pre-commercial。"],
+          ["2030+", "依收入密度擴張，而非只看覆蓋率。"]
+        ]
+      },
+      {
+        section: "策略藍圖：2026-2036",
+        page: "04 / 04",
+        label: "10-year Roadmap",
+        title: "未來 10 年電信發展策略藍圖：從穩定連線走向可計價能力。",
+        question: "把 AI-RAN、IOWN 與 6G 串成同一條主線：先守住現金流，再用企業場域驗證新收入，最後把網路能力平台化。",
+        tag: "總方針",
+        answer: "台灣大應採取「需求牽引式升級」：不做全網豪賭，先把 5G Advanced、MEC、Network API、企業 SLA、資安與邊緣 AI 做成可收費產品。",
+        verdict: "10 年主軸：守住平價穩定傳輸，用企業 SLA、API、邊緣 AI 與節能光網重建成長。",
+        sideTitle: "Roadmap 的核心不是技術年份，而是商業門檻。",
+        brief: "每一階段都要有可衡量的收入、成本或戰略控制權。AI-RAN 是算力期權，IOWN 是能源期權，6G 是可編程企業基礎設施。",
+        image: {
+          src: "https://commons.wikimedia.org/wiki/Special:FilePath/Batelco%20Network%20Operations%20Centre%20%28NOC%29.JPG?width=900",
+          source: "https://commons.wikimedia.org/wiki/File:Batelco_Network_Operations_Centre_(NOC).JPG",
+          caption: "網路維運中心，適合呈現 10 年 Roadmap 的營運治理、KPI 與策略監控。",
+          alt: "Network operations center with monitoring displays"
+        },
+        sourceKeys: [1, 2, 3],
+        terms: ["Telco Edge AI", "IDC", "Open Gateway", "企業專網", "AI-RAN", "IOWN", "6G", "SLA"],
+        principles: [
+          ["2026-2028：打底", "5G SA、切片、MEC、Open Gateway API、RAN 自動化與企業專網先商品化。"],
+          ["2028-2030：試點", "AI-RAN、APN-ready、6G pre-commercial 只進高收入密度場域。"],
+          ["2030-2036：擴張", "用收入密度與節能審計決定擴張，不再只看覆蓋率與下載速度。"]
+        ],
+        decisions: [
+          "投資原則：核心網路維持低成本、高穩定、高覆蓋；新技術只在能帶來企業收入、節能或定價權時部署。",
+          "產品化方向：推出企業 SLA 套餐、Network API 計價、Telco Edge AI 平台、資安信任服務與產業專網包。",
+          "優先場域：新竹科學園區、台中製造聚落、南科供應鏈、台北金融核心、高雄港、桃園機場、醫療院區與 AI data center 周邊。",
+          "KPI 改造：追蹤每 MHz 企業收入、每基站 API 調用收入、每平方公里 SLA 合約收入、每 bit 能耗與每瓦推論成本。",
+          "風險控管：所有 AI-RAN / IOWN 合約都要可退出、可比較、可多供應商替代；避免把期權變成鎖定。"
+        ],
+        metrics: [
+          ["2026-28", "5G Advanced 與 API 打底"],
+          ["2028-30", "高價值場域 pre-commercial"],
+          ["2030-36", "依收入密度與節能擴張"]
+        ],
+        timeline: [
+          ["第一階段", "證明企業願為確定性付費：SLA、API、MEC、資安先行。"],
+          ["第二階段", "讓 AI-RAN 與 IOWN 只進有客戶、有節能、有 SLA 的場域。"],
+          ["第三階段", "6G 轉為企業平台升級，形成 API、邊緣 AI 與信任服務收入。"],
+          ["治理節奏", "每半年檢視 KPI；未達門檻就保留能力，不擴大 capex。"]
+        ]
+      }
+    ];
+
+    const nodes = {
+      sectionName: document.getElementById("sectionName"),
+      pageNo: document.getElementById("pageNo"),
+      heroVerdict: document.getElementById("heroVerdict"),
+      questionLabel: document.getElementById("questionLabel"),
+      title: document.getElementById("title"),
+      question: document.getElementById("question"),
+      answerTag: document.getElementById("answerTag"),
+      answer: document.getElementById("answer"),
+      principles: document.getElementById("principles"),
+      decisions: document.getElementById("decisions"),
+      sideTitle: document.getElementById("sideTitle"),
+      brief: document.getElementById("brief"),
+      visual: document.getElementById("visual"),
+      visualImage: document.getElementById("visualImage"),
+      visualSource: document.getElementById("visualSource"),
+      terms: document.getElementById("terms"),
+      metrics: document.getElementById("metrics"),
+      timeline: document.getElementById("timeline"),
+      sourceSummary: document.getElementById("sourceSummary"),
+      sourceContent: document.getElementById("sourceContent"),
+      modalBackdrop: document.getElementById("modalBackdrop"),
+      modalTitle: document.getElementById("modalTitle"),
+      modalBody: document.getElementById("modalBody"),
+      modalWhy: document.getElementById("modalWhy"),
+      modalClose: document.getElementById("modalClose")
+    };
+
+    let sourceBlocks = {};
+
+    function normalizeSource(text) {
+      return text
+        .replace(/\r\n/g, "\n")
+        .replace(/\n{4,}/g, "\n\n\n")
+        .trim();
+    }
+
+    function extractSourceBlocks(text) {
+      const blocks = {};
+      const normalized = normalizeSource(text);
+      const parts = normalized.split(/\n(?=Question\s+\d+:)/g);
+      parts.forEach(part => {
+        const match = part.match(/^Question\s+(\d+):/);
+        if (match) blocks[Number(match[1])] = part.trim();
+      });
+      return blocks;
+    }
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function cleanInlineMarkdown(line) {
+      return line
+        .replace(/[-=]{3,}/g, " ")
+        .replace(/\(\[([^\]]+)\]\[\d+\]\)/g, "（$1）")
+        .replace(/\[([^\]]+)\]\[\d+\]/g, "$1")
+        .replace(/\[\d+\]/g, "")
+        .replace(/\*\*/g, "")
+        .replace(/`/g, "")
+        .replace(/^#+\s*/, "")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+    }
+
+    function sourceLineToHtml(rawLine) {
+      const line = rawLine.trim();
+      if (!line) return "";
+      if (/^[\s|:\-=]{5,}$/.test(line)) return "";
+      if (/^\[\d+\]:\s/.test(line)) return "";
+
+      if (line.includes("|")) {
+        const cells = line
+          .split("|")
+          .map(cell => cleanInlineMarkdown(cell))
+          .filter(Boolean);
+        if (!cells.length) return "";
+        return `<p class="source-paragraph">${escapeHtml(cells.join("；"))}</p>`;
+      }
+
+      if (/^Question\s+\d+:/.test(line) || /^Suggestion\s+\d+:/.test(line)) {
+        return `<div class="source-part">${escapeHtml(cleanInlineMarkdown(line))}</div>`;
+      }
+
+      if (/^題目/.test(line)) {
+        return `<div class="source-title">${escapeHtml(cleanInlineMarkdown(line))}</div>`;
+      }
+
+      if (/^#{1,3}\s+/.test(line)) {
+        const depth = line.startsWith("###") ? "source-subheading" : "source-heading";
+        return `<div class="${depth}">${escapeHtml(cleanInlineMarkdown(line.replace(/^#{1,3}\s+/, "")))}</div>`;
+      }
+
+      if (/^\*\*.+\*\*$/.test(line)) {
+        return `<p class="source-highlight">${escapeHtml(cleanInlineMarkdown(line))}</p>`;
+      }
+
+      if (/^(第一|第二|第三|第四|第五|第六|第七|第八|第九|第十|一是|二是|三是|四是|五是)/.test(line)) {
+        return `<p class="source-paragraph">${escapeHtml(cleanInlineMarkdown(line))}</p>`;
+      }
+
+      return `<p class="source-paragraph">${escapeHtml(cleanInlineMarkdown(line))}</p>`;
+    }
+
+    function formatSourceHtml(content) {
+      const cleaned = normalizeSource(content)
+        .replace(/[-=]{5,}/g, "\n")
+        .replace(/\n{3,}/g, "\n\n");
+      const html = cleaned
+        .split("\n")
+        .map(sourceLineToHtml)
+        .filter(Boolean)
+        .join("");
+      return html || `<p class="source-paragraph">完整內容載入中，或 context.txt 尚未讀取成功。</p>`;
+    }
+
+    async function loadSourceBlocks() {
+      try {
+        const response = await fetch("context.txt", { cache: "no-store" });
+        if (!response.ok) throw new Error("context.txt HTTP " + response.status);
+        sourceBlocks = extractSourceBlocks(await response.text());
+      } catch (error) {
+        sourceBlocks = {};
+        nodes.sourceContent.textContent = "無法自動載入 context.txt。若直接以 file:// 開啟網頁，瀏覽器可能會阻擋本機文字檔讀取；請改用本機伺服器預覽。";
+      }
+      const active = Number(document.querySelector(".tab-button.active").dataset.tab);
+      renderSource(tabs[active]);
+    }
+
+    function renderSource(tab) {
+      const keys = tab.sourceKeys || [];
+      const content = keys.map(key => sourceBlocks[key]).filter(Boolean).join("\n\n");
+      nodes.sourceSummary.textContent = keys.length > 1
+        ? "展開完整策略依據：Question / Suggestion 1-3 原文"
+        : `展開完整 Question ${keys[0]} / Suggestion ${keys[0]} 原文`;
+      nodes.sourceContent.innerHTML = formatSourceHtml(content);
+    }
+
+    function renderTab(index) {
+      const tab = tabs[index];
+      nodes.sectionName.textContent = tab.section;
+      nodes.pageNo.textContent = tab.page;
+      nodes.heroVerdict.textContent = tab.verdict;
+      nodes.questionLabel.textContent = tab.label;
+      nodes.title.textContent = tab.title;
+      nodes.question.textContent = tab.question;
+      nodes.answerTag.textContent = tab.tag;
+      nodes.answer.textContent = tab.answer;
+      nodes.sideTitle.textContent = tab.sideTitle;
+      nodes.brief.textContent = tab.brief;
+      nodes.visualImage.src = tab.image.src;
+      nodes.visualImage.alt = tab.image.alt;
+      nodes.visualSource.href = tab.image.source;
+      nodes.visual.dataset.caption = tab.image.caption;
+
+      nodes.principles.innerHTML = tab.principles.map(item => `
+        <div class="principle">
+          <strong>${item[0]}</strong>
+          <span>${item[1]}</span>
+        </div>
+      `).join("");
+
+      nodes.decisions.innerHTML = tab.decisions.map((item, i) => `
+        <div class="decision">
+          <b>${i + 1}</b>
+          <span>${item}</span>
+        </div>
+      `).join("");
+
+      nodes.terms.innerHTML = tab.terms.map(term => `
+        <button class="term" type="button" data-term="${term}">${term}</button>
+      `).join("");
+
+      nodes.metrics.innerHTML = tab.metrics.map(item => `
+        <div class="metric">
+          <span class="metric-value">${item[0]}</span>
+          <span class="metric-caption">${item[1]}</span>
+        </div>
+      `).join("");
+
+      nodes.timeline.innerHTML = tab.timeline.map(item => `
+        <div class="step">
+          <strong>${item[0]}</strong>
+          <span>${item[1]}</span>
+        </div>
+      `).join("");
+
+      renderSource(tab);
+
+      document.querySelectorAll(".tab-button").forEach(button => {
+        button.classList.toggle("active", Number(button.dataset.tab) === index);
+      });
+    }
+
+    function openTerm(term) {
+      const data = glossary[term];
+      if (!data) return;
+      nodes.modalTitle.textContent = term;
+      nodes.modalBody.textContent = data.body;
+      nodes.modalWhy.textContent = data.why;
+      nodes.modalBackdrop.classList.add("open");
+      nodes.modalClose.focus();
+    }
+
+    function closeModal() {
+      nodes.modalBackdrop.classList.remove("open");
+    }
+
+    document.querySelector(".tabs").addEventListener("click", event => {
+      const button = event.target.closest("[data-tab]");
+      if (!button) return;
+      renderTab(Number(button.dataset.tab));
+    });
+
+    nodes.terms.addEventListener("click", event => {
+      const button = event.target.closest("[data-term]");
+      if (!button) return;
+      openTerm(button.dataset.term);
+    });
+
+    nodes.modalClose.addEventListener("click", closeModal);
+    nodes.modalBackdrop.addEventListener("click", event => {
+      if (event.target === nodes.modalBackdrop) closeModal();
+    });
+
+    document.addEventListener("keydown", event => {
+      const active = Number(document.querySelector(".tab-button.active").dataset.tab);
+      if (event.key === "Escape") closeModal();
+      if (event.key === "ArrowRight") renderTab(Math.min(active + 1, tabs.length - 1));
+      if (event.key === "ArrowLeft") renderTab(Math.max(active - 1, 0));
+    });
+
+    renderTab(0);
+    loadSourceBlocks();
+  </script>
+</body>
+</html>
